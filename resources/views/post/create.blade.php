@@ -3,25 +3,52 @@
 @section('title') Show @endsection
 
 @section('content')
-<form method="post" action="{{route('posts.store')}}">
-  @csrf
-  <div >
-    <label for="title" class="form-label">Email address</label>
-    <input type="text" class="form-control" id="title" require>
-    
-  </div>
+<!-- /resources/views/post/create.blade.php -->
  
-  <div>
-    <label for="description" class="form-label">desciption</label>
-    <input type="text" class="form-control" id="description" require>
+<h1>Create Post</h1>
+ 
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+ 
+<!-- Create Post Form -->
+<form method="post" action="{{route('posts.store' )}}"   enctype="multipart/form-data">
+  @csrf
+       <div class="mb-3">
+           <label for="title" class="form-label">title</label>
+           <input name="title" type="text" class="form-control" id="title" >
     
-  </div>
-  <div>
-    <label for="postcreator" class="form-label">post create</label>
-  <input type="text" class="form-control" id="postcreator" require>
+       </div>
+ 
+       <div class="mb-3">
+           <label for="description" class="form-label">desciption</label>
+           <input name="description" type="text" class="form-control" id="description" >
     
-  </div>
-  <button type="submit" class="btn btn-primary">create</button>
+      </div>
+
+      <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Post Creator</label>
+            <select name="post_creator" class="form-control">
+                @foreach($users as $user)
+                    <option value="{{$user->id}}">{{$user->name}}</option>
+                @endforeach
+            </select>
+        </div>
+
+
+        <div class="mb-3">
+            <label for="image" class="form-label">upload file</label>
+             <input name="image" type="file" class="form-control" id="file" >
+    
+        </div>
+        
+         <button type="submit" class="btn btn-primary">create</button>
 </form>
 
 @endsection

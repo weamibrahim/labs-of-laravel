@@ -12,6 +12,8 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Title</th>
+            <th scope="col">slug</th>
+          
             <th scope="col">Posted By</th>
             <th scope="col">Created At</th>
             <th scope="col">Actions</th>
@@ -21,22 +23,30 @@
 
         @foreach($posts as $post)
             <tr>
-                <td>{{$post['id']}}</td>
-                <td>{{$post['title']}}</td>
-                <td>{{$post['posted_by']}}</td>
-                <td>{{$post['created_at']}}</td>
+               <td>{{$post->id}}</td>
+                <td>{{$post->title}}</td>
+                <td>{{ $post->slug }}</a></td>
+                @if($post->user)
+                <td>{{$post->user->name}}</td>
+                @else
+                <td>not found</td>
+                @endif
+                <td>{{$post->created_at->format('Y-m-d')}}</td>
+              
                 <td>
+                <a href="{{route('posts.edit',$post['id'])}}" class="btn btn-primary">Edit</a>
                     <a href="{{route('posts.show', $post['id'])}}" class="btn btn-info">View</a>
-                    <a href="{{route('posts.update')}}" class="btn btn-primary">Edit</a>
-                    <a href="#" class="btn btn-danger">Delete</a>
+                    <form onclick=" return confirm('are you sure you want to delete ?')" style="display:inline;" method="post" action="{{route('posts.destory',$post['id'])}}"> 
+                    @method('DELETE')
+                    @csrf
+                  
+                    <button type="submit" class="btn btn-danger"> delete</button></form>
                 </td>
             </tr>
         @endforeach
 
-
-
         </tbody>
     </table>
-
+{!! $posts->links()!!}
 @endsection
 
