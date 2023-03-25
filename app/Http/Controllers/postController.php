@@ -107,9 +107,9 @@ class PostController extends Controller
     {
      
     $post= Post::where('id', $id);
-      //if ($post->image) {
-       //Storage::delete('public/'.$post->image);
-   // }
+      if ($post->image) {
+       Storage::delete('public/'.$post->image);
+   }
 
       $post->delete();
       return to_route(route:'posts.index');
